@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Machine Learning data
+*.tsv
+*.json
+*.pickle
+*.pkl
+*.h5
+*.hdf5
+*.db
+*.sqlite
+
+# Logs and log files
+logs/
+*.log
+*.out
+
+# Model checkpoints
+checkpoints/
+*.ckpt
+*.h5
+*.pt
+*.pth
+*.onnx
+
+# TensorBoard and other experiment artifacts
+runs/
+*.events
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Python package files
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.~lock.*

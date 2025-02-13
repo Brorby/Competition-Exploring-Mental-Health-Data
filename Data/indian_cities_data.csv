@@ -1,0 +1,31 @@
+City,Population,Density (per km²),Literacy Rate (%),Sex Ratio,Main Language
+Kalyan,1246381,9088.0,91.37,920,Marathi
+Patna,1684222,17012.0,83.37,885,Hindi
+Vasai-Virar,1222390,3200.0,88.57,886,Marathi
+Kolkata,4496694,22000.0,86.31,908,Bengali
+Ahmedabad,5577940,11000.0,89.62,898,Gujarati
+Meerut,1305429,8300.0,75.66,897,Hindi
+Ludhiana,1618879,5200.0,85.77,850,Punjabi
+Pune,3124458,9400.0,89.56,948,Marathi
+Rajkot,1286678,8500.0,87.8,908,Gujarati
+Visakhapatnam,1728128,2500.0,81.79,978,Telugu
+Srinagar,1180570,4000.0,69.15,908,"Kashmiri, Urdu"
+Mumbai,12442373,20482.0,89.73,853,Marathi
+Indore,1964086,4900.0,85.57,925,Hindi
+Agra,1585704,1084.0,73.11,875,Hindi
+Surat,4467797,13000.0,87.9,756,Gujarati
+Varanasi,1198491,7300.0,79.27,887,"Hindi, Bhojpuri"
+Vadodara,1670806,3400.0,90.63,921,Gujarati
+Hyderabad,6731790,10477.0,83.26,955,Telugu
+Kanpur,2765348,6900.0,82.42,857,Hindi
+Jaipur,3046163,6500.0,72.73,900,Rajasthani
+Thane,1841448,13000.0,89.41,888,Marathi
+Lucknow,2817105,8100.0,82.5,940,Hindi
+Nagpur,2405665,11000.0,91.92,963,Marathi
+Bangalore,8443675,12000.0,88.71,923,Kannada
+Chennai,4646732,17000.0,90.2,989,Tamil
+Ghaziabad,1648643,8200.0,84.78,885,Hindi
+Delhi,16787941,11320.0,86.2,868,Hindi
+Bhopal,1798218,3887.0,83.47,921,Hindi
+Faridabad,1594839,1890.0,82.6,872,Punjabi
+Nashik,1486053,5625.0,89.85,899,Marathi

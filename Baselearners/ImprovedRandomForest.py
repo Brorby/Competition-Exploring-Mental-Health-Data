@@ -46,6 +46,23 @@ class ImprovedRandomForest:
         predictions = np.array([tree.predict(dataset) for tree in self.trees])
         majority_vote, _ = mode(predictions, axis=0, keepdims=True)
         return majority_vote.flatten()
+    
+    def predict_proba(self, dataset):
+        # Get the number of classes from the first tree
+        n_classes = self.trees[0].n_classes_
+
+        # Initialize an array to store cumulative probabilities
+        proba_sum = np.zeros((len(dataset), n_classes))
+
+        # Sum the probabilities from each tree
+        for tree in self.trees:
+            proba_sum += tree.predict_proba(dataset)
+
+        # Average the probabilities
+        proba_avg = proba_sum / len(self.trees)
+
+        return proba_avg
+
 
 
 def split_training_data(data, seed=0, train_size=0.8):

@@ -72,7 +72,11 @@ def ensemble_forward(net, X, base_preds, k, epsilon, m):
 # Base Predictions
 # ------------------------------
 def get_base_predictions(X, learners):
-    preds = [model.predict_proba(X) for model in learners.values()]
+    preds = [
+        model.forward(X, 20) if "greedy" in name
+        else model.predict_proba(X)
+        for name, model in learners.items()
+]
     arr = np.stack(preds, axis=0)
     return np.transpose(arr, (1,0,2))
 

@@ -71,14 +71,13 @@ def ensemble_forward(net, X, base_preds, k, epsilon, m):
 # ------------------------------
 # Base Predictions
 # ------------------------------
+import numpy as np
+
 def get_base_predictions(X, learners):
-    preds = [
-        model.forward(X, 20) if "greedy" in name
-        else model.predict_proba(X)
-        for name, model in learners.items()
-]
-    arr = np.stack(preds, axis=0)
-    return np.transpose(arr, (1,0,2))
+    preds = [ model.predict_proba(X) for model in learners.values() ]
+    arr   = np.stack(preds, axis=0)     # (n_learners, n_samples, n_classes)
+    return arr.transpose(1,0,2)         # (n_samples, n_learners, n_classes)
+
 
 # ------------------------------
 # Training for a single k (records losses/accuracies)

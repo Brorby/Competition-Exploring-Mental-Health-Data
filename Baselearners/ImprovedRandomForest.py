@@ -48,18 +48,18 @@ class ImprovedRandomForest:
         return majority_vote.flatten()
     
     def predict_proba(self, dataset):
-        # Get the number of classes from the first tree
-        n_classes = self.trees[0].n_classes_
+        all_probas = [t.predict_proba(dataset) for t in self.trees]
+        proba_avg = np.mean(np.stack(all_probas, axis=0), axis=0)
 
-        # Initialize an array to store cumulative probabilities
-        proba_sum = np.zeros((len(dataset), n_classes))
+        if proba_avg.shape[1] == 1:
+            seen = self.trees[0].classes_[0]
+            n_samples = proba_avg.shape[0]
 
-        # Sum the probabilities from each tree
-        for tree in self.trees:
-            proba_sum += tree.predict_proba(dataset)
-
-        # Average the probabilities
-        proba_avg = proba_sum / len(self.trees)
+            if seen == 1:
+                proba_full = np.hstack([np.zeros((n_samples,1)), proba_avg])
+            else:
+                proba_full = np.hstack([proba_avg, np.zeros((n_samples,1))])
+            return proba_full
 
         return proba_avg
 

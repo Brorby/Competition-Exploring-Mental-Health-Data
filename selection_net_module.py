@@ -100,6 +100,7 @@ def train_selection_for_k(learners, X_train, y_train, X_val, y_val,
     best_acc, best_state = 0.0, None
 
     for epoch in range(1, num_epochs+1):
+        print(f"Epoch {epoch}/{num_epochs}...")
         net.train()
         perm = torch.randperm(X_tr.size(0))
         epoch_loss = 0.0
@@ -138,6 +139,7 @@ def tune_selection_net(learners, X_train, y_train, X_val, y_val,
     results, loss_results, acc_results = {}, {}, {}
     print("Tuning selection network...")
     for k in ks:
+        print(f"Training for k={k}...")
         acc, state, losses, accs = train_selection_for_k(
             learners, X_train, y_train, X_val, y_val,
             input_size, k, num_epochs, epsilon, m, batch_size

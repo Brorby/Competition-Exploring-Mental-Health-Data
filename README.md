@@ -12,7 +12,7 @@ https://freedcamp.com/view/3545498/tasks
 ## Distribution of individual work:
 Magnus - In the Magnus_implementation folder. Instanciated in main.ipynb
 Isak - In the dynamic_selection folder. Instanciated in main.ipynb
-Elias - in this branch: (link to github)
+Elias - In the selection_net_module.py file. Instanciated in main.ipynb
 
 # help with making environment:
 

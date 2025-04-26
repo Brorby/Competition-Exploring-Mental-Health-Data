@@ -10,7 +10,7 @@ from scipy.stats import mode
 class ImprovedRandomForest:
     def __init__(self, N_final, m, max_depth, min_samples_leaf, min_samples_split, training_data):
 
-        self.X_train, self.X_reserved, self.y_train, self.y_reserved = split_training_data(data=training_data)
+        self.X_train, self.X_reserved, self.y_train, self.y_reserved = split_training_data(data=training_data, seed=42, train_size=0.8)
 
         # split the reserved data into three equal parts
         reserved_size = len(self.X_reserved) // 3

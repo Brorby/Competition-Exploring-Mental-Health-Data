@@ -40,14 +40,34 @@ class ImprovedRandomForest:
         self.trees = [tree_information[1] for tree_information in self.tree_info_sorted]
 
     def get_trees(self):
+        """
+        Returns the trees which the improved random forest consists of. 
+        """
         return self.trees
 
     def predict(self, dataset):
+        """
+        Predict class labels for each sample by majority-voting over the forest.
+
+        Parameters
+        ----------
+        dataset : array-like of shape (n_samples, n_features)
+            The input samples to classify. Can be a NumPy array or pandas DataFrame.
+
+        Returns
+        -------
+        y_pred : ndarray of shape (n_samples,)
+            The predicted class label for each input sample, obtained by taking
+            the most frequent prediction among all trees in the ensemble.
+        """
         predictions = np.array([tree.predict(dataset) for tree in self.trees])
         majority_vote, _ = mode(predictions, axis=0, keepdims=True)
         return majority_vote.flatten()
     
     def predict_proba(self, dataset):
+        """
+        Return the ensemble’s average class probabilities for the given samples.
+        """
         all_probas = [t.predict_proba(dataset) for t in self.trees]
         proba_avg = np.mean(np.stack(all_probas, axis=0), axis=0)
 
@@ -66,6 +86,9 @@ class ImprovedRandomForest:
 
 
 def split_training_data(data, seed=0, train_size=0.8):
+    """
+    Splits the dataset into X_train, X_val, y_train and y_val where the "Depression" column in the dataset are the label variables (y)
+    """
     np.random.seed(seed)
     X = data.drop(columns=["Depression"])
     y = data["Depression"]
@@ -75,10 +98,15 @@ def split_training_data(data, seed=0, train_size=0.8):
 
 def make_trees(N_final, m, max_depth, min_samples_leaf, min_samples_split, X_train, y_train):
     """
-    Generates the total amount of trees including the
-    trees that are going to be deleted later
-    """
+    Instantiates and fits the total amount of trees, including the trees that are going to be deleted later, to the trainingset.
 
+    Parameters
+    ----------
+    N_final, m, max_depth, min_samples_leaf, min_samples_split: The parameters being used to construct the Decision trees.
+    X_train, y_train: The training data that the trees are fitted to.
+
+    Returns the all the trained trees in a list 
+    """
     # total number of trees to train
     N_pool = int(N_final * (1 + m))
 
@@ -95,10 +123,10 @@ def make_trees(N_final, m, max_depth, min_samples_leaf, min_samples_split, X_tra
 
 def average_classification_accuracy(reserved, clf: DecisionTreeClassifier):
     """
-    Calculates the average classification accuracy of a decision tree 
-    just how the paper describes it.
-    """
+    Calculates the average classification accuracy of a decision tree using the three reserved datasets.
 
+    Returns the average classification accuracy across the reserved datasets.
+    """
     accuracy = 0
     for i in reserved:
         accuracy += accuracy_score(i[1], clf.predict(i[0]))
@@ -166,8 +194,10 @@ def improved_similarity(clf1, clf2):
 
 def correlation_test(tree_info_sorted, N_final, reserved):
     """
-    Finds the correlation between trees using the improved_similarity() function while also tuning the correlation threshold.
-    Returns a mask that can be used to filter out what trees are marked as deletable.
+    Finds the correlation between trees using the improved_similarity() function.  
+    The correlation threshold is optimized using the grid search method tuning on five different thresholds that is based on the mean correlation measurements in the model.
+
+    Returns a mask that can be used to filter out which trees are marked as deletable.
     """
 
     # The matrix keeping track of the correlations between trees.
@@ -240,6 +270,8 @@ def correlation_test(tree_info_sorted, N_final, reserved):
 def find_mean_without_diagonal(width, height, matrix):
     """
     Finds the mean and min while excluding the times when a tree is compared to itself because that as irrelevant and will pull the mean and min lower than whats correct.
+
+    Returns the mean and min correlation / angle of the model
     """
     
     mean = 0
@@ -259,7 +291,9 @@ def find_mean_without_diagonal(width, height, matrix):
 
 def delete_with_accuracy(tree_info_sorted_temp, preset):
     """
-    Sequentially removing trees with the lowest average classification accuracy until the preset number is met
+    Sequentially removing trees with the lowest average classification accuracy until the preset number is met.
+
+    Returns the final list after deletion.
     """
     print("There were too few in the deletable list, deleting based on accuracy score.")
     idx = len(tree_info_sorted_temp) - 1
@@ -273,7 +307,7 @@ def delete_with_accuracy(tree_info_sorted_temp, preset):
 def filter_out_trees(tree_info_sorted_for_deletion, mask, preset):
     """
     Removes trees primarily based on the deletable trees, but if the preset number isn't met when all the deletable trees are deleted,
-    trees will be removed based solely on their accuracy score. 
+    trees will be removed based solely on their accuracy score, using the "delete_with_accuracy()" method.
     """
 
     mask_temp = list(mask)

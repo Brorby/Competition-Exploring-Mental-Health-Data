@@ -10,6 +10,8 @@ __pycache__/
 venv/
 env/
 
+ResultsReady.zip
+
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 

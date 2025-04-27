@@ -51,8 +51,8 @@ The final submission is in the submission.csv file.
    - Two-layer MLP outputs scores per learner, applies a Monte Carlo–smoothed top-k knapsack to pick a subset per sample.
    - Code can be found under Elias_SelectionNet folder, and is instanciated main.ipynb.
 5. **Combined Selection Net**
-   - Integrate the ten specialized learners (from steps 1–3) into a single Selection Net pipeline.
-   - Tune top-k ∈ {1…10} via CV.
+   - Integrate the nine specialized learners (from steps 1–3) into a single Selection Net pipeline.
+   - Tune top-k ∈ {1…9} via CV.
    - Code can be found in main.ipynb
 
 ## More in-depth descriptions of the individual implementations:

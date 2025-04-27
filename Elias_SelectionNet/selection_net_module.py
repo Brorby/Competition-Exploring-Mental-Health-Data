@@ -243,7 +243,7 @@ def train_selection_for_k(learners, X_train, y_train, X_val, y_val,
 
 def tune_selection_net(learners, X_train, y_train, X_val, y_val,
                        ks, input_size, num_epochs=10,
-                       epsilon=0.1, m=10, batch_size=32,
+                       epsilon=0.1, m=1000, batch_size=512,
                        plot=False):
     """
     Iterate over a list of k values to find the optimal number of learners to select.

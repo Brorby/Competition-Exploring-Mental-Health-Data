@@ -37,7 +37,7 @@ These data files can be found in /Data folder
 | Various survey and demographic  | numeric / categorical / text-derived | Input features             |
 
 
-## Our Approach
+## Our Approaches
 
 1. **Baseline Random Forest**  
    - Grid-search CV to tune `max_depth`, `min_samples_split`, `min_samples_leaf`, `n_estimators`.  
@@ -55,3 +55,16 @@ These data files can be found in /Data folder
    - Integrate the ten specialized learners (from steps 1–3) into a single Selection Net pipeline.  
    - Tune top-k ∈ {1…10} via CV. 
    - Code can be found in main.ipynb
+
+
+
+## More in-depth descriptions of the individual implementations:
+
+### Improved Random Forest
+First, we train a pool of trees of size N_final + m * N_final via bagging. Each tree is scored on a held-out validation split. We compute cosine similarities between feature-subset vectors of all tree pairs and derive candidate correlation thresholds by interpolating between the minimum, mean, and maximum similarity values. For pairs exceeding the chosen threshold, the lower-accuracy tree is pruned. This process continues until only N_final=200 trees remain. Final tree hyperparameters: max_depth=15, min_samples_leaf=4, min_samples_split=2, pruning multiplier m=0.7.
+
+### Greedy Dynamic Feature Selection (GDFS)
+GDFS alternates between a policy network that greedily selects the most informative feature at each step and a selector network that predicts the target given the chosen subset. We pretrain both networks separately for 100 epochs on class-balanced 95/5 splits, then jointly train end-to-end for 3 epochs per temperature parameter τ. Key hyperparameters: batch_size=128, dropout_rate=0.4, hidden_size=64, learning_rate=0.001, max_features=20.
+
+### Differentiable Selection Net
+We first train ten specialized learners (five model types on two 95/5 splits). A two-layer MLP (input → 128 ReLU → amount of base learners (10)) produces scores for each learner. We L2-normalize these scores and apply a Monte Carlo–smoothed top-k knapsack layer (ε=0.1, m=1000) to obtain a binary mask per sample. The masked learner probabilities are summed and re-softmaxed for the final prediction. We tune k over {1…10} with 5 epochs (batch_size=512, Adam lr=1e-3) and select the model state at best validation accuracy.
